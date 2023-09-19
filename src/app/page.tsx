@@ -80,7 +80,7 @@ export default function Home() {
           className="bg-white/25 text-center rounded-lg"
           min={1}
           max={data.length - 1}
-          onChange={(e) => setActive(Number(e.target.value))}
+          onChange={(e) => setActive(Number(e.target.value || active))}
         />
         <button
           onClick={() => setActive(active + 1)}
