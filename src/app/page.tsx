@@ -8,7 +8,7 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 
 export default function Home() {
   const [data, setData] = useState<PokemonSVG[]>([]);
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(1);
 
   const variants: Variants = {
     initial: {
@@ -46,34 +46,44 @@ export default function Home() {
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
         stroke="currentColor"
-        stroke-width=".5"
+        strokeWidth=".5"
         viewBox="0 0 250 250"
-        className="border-[1px] border-white/30 rounded-lg w-[570px] h-[570px]"
+        className="border-[1px] border-white/30 rounded-lg w-[570px] h-[570px] max-w-[80vw] aspect-square"
       >
         {data.length &&
-          data[active].paths.map((tri, i) => (
-            <motion.path
-              d={tri.points}
-              color={tri.color}
-              variants={variants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              key={`tri-${i}`}
-              className="transition-all duration-500"
-              layoutId={`tri-${i}`}
-            />
-          ))}
+          data[active - 1].paths
+            .filter((p) => p.color !== "rgb(0,0,0)")
+            .map((tri, i) => (
+              <motion.path
+                d={tri.points}
+                color={tri.color}
+                variants={variants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                key={`tri-${i}`}
+                className="transition-all duration-1000"
+                layoutId={`tri-${i}`}
+              />
+            ))}
       </svg>
 
       <div className="flex justify-evenly text-3xl">
         <button
           onClick={() => setActive(active - 1)}
-          disabled={active === 0}
+          disabled={active === 1}
           className="bg-white/50 hover:bg-rose-200/50 transition-colors duration-300 rounded-full aspect-square w-16 grid place-content-center"
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
+        <input
+          type="number"
+          name="active"
+          id="active"
+          value={active}
+          className="bg-white/25 text-center rounded-lg"
+          onChange={(e) => setActive(Number(e.target.value))}
+        />
         <button
           onClick={() => setActive(active + 1)}
           disabled={active === data.length - 1}
