@@ -23,7 +23,7 @@ export default function Home() {
     exit: {
       opacity: 0,
       transition: {
-        duration: 2,
+        duration: 1,
       },
     },
   };
@@ -62,7 +62,7 @@ export default function Home() {
                 animate="animate"
                 exit="exit"
                 key={`tri-${i}`}
-                className="transition-all duration-1000"
+                className="transition-all duration-[850ms]"
                 layoutId={`tri-${i}`}
               />
             ))}
