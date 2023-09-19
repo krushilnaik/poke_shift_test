@@ -2,7 +2,7 @@
 
 import { PokemonSVG } from "@/types";
 import { useEffect, useState } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,15 +16,9 @@ export default function Home() {
     },
     animate: {
       opacity: 1,
-      transition: {
-        duration: 0.1,
-      },
     },
     exit: {
       opacity: 0,
-      transition: {
-        duration: 1,
-      },
     },
   };
 
@@ -50,22 +44,24 @@ export default function Home() {
         viewBox="0 0 250 250"
         className="border-[1px] border-white/30 rounded-lg w-[570px] h-[570px] max-w-[80vw] aspect-square"
       >
-        {data.length &&
-          data[active - 1].paths
-            .filter((p) => p.color !== "rgb(0,0,0)")
-            .map((tri, i) => (
-              <motion.path
-                d={tri.points}
-                color={tri.color}
-                variants={variants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                key={`tri-${i}`}
-                className="transition-all duration-[850ms]"
-                layoutId={`tri-${i}`}
-              />
-            ))}
+        <AnimatePresence>
+          {data.length &&
+            data[active - 1].paths
+              .filter((p) => p.color !== "rgb(0,0,0)")
+              .map((tri, i) => (
+                <motion.path
+                  d={tri.points}
+                  color={tri.color}
+                  variants={variants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  key={`tri-${i}`}
+                  className="transition-all duration-[850ms]"
+                  layoutId={`tri-${i}`}
+                />
+              ))}
+        </AnimatePresence>
       </svg>
 
       <div className="flex justify-evenly text-3xl">
@@ -82,6 +78,8 @@ export default function Home() {
           id="active"
           value={active}
           className="bg-white/25 text-center rounded-lg"
+          min={1}
+          max={data.length - 1}
           onChange={(e) => setActive(Number(e.target.value))}
         />
         <button
