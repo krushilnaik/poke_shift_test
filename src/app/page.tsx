@@ -130,7 +130,7 @@ export default function Home() {
       <div className="absolute flex w-full justify-between bottom-6 p-5 md:hidden">
         <button
           role="navigation"
-          onClick={() => setActive(active + 1)}
+          onClick={() => setActive(active - 1)}
           disabled={active === data.length - 1}
         >
           <FontAwesomeIcon icon={faChevronLeft} />
