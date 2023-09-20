@@ -56,7 +56,7 @@ export default function Home() {
 
   return (
     <main className="relative grid place-content-center w-full h-screen overflow-clip gap-6">
-      <div className="flex justify-between w-full gap-4 z-10 items-center max-w-screen-xl">
+      <div className="flex justify-between w-full gap-12 z-10 items-center max-w-screen-xl">
         <button
           role="navigation"
           onClick={() => setActive(active - 1)}
@@ -66,35 +66,31 @@ export default function Home() {
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
         <div className="flex flex-col gap-5 items-center">
-          <div className="relative">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              stroke="currentColor"
-              strokeWidth=".5"
-              viewBox="0 0 250 250"
-              className="relative rounded-lg w-[570px] max-w-[90vw] aspect-square z-10"
-            >
-              <AnimatePresence mode="popLayout">
-                {data[active - 1].paths
-                  .filter((p) => p.color !== "rgb(0,0,0)")
-                  .map((tri, i) => (
-                    <motion.path
-                      layout
-                      d={tri.points}
-                      color={tri.color}
-                      variants={variants}
-                      initial="initial"
-                      animate="animate"
-                      transition={{ duration: 0.5 }}
-                      exit="exit"
-                      key={`tri-${i}`}
-                      className="duration-[850ms]"
-                    />
-                  ))}
-              </AnimatePresence>
-            </svg>
-          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            stroke="currentColor"
+            strokeWidth=".5"
+            viewBox="0 0 250 250"
+            className="relative rounded-lg w-[570px] max-w-[90vw] aspect-square z-10"
+          >
+            <AnimatePresence mode="popLayout">
+              {data[active - 1].paths.map((tri, i) => (
+                <motion.path
+                  layout
+                  d={tri.points}
+                  color={tri.color}
+                  variants={variants}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ duration: 0.5 }}
+                  exit="exit"
+                  key={`tri-${i}`}
+                  className="duration-[850ms]"
+                />
+              ))}
+            </AnimatePresence>
+          </svg>
 
           <AnimatePresence mode="wait">
             <motion.div
