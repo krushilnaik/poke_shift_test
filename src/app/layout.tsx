@@ -11,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         ></link>
       </head>
-      <body className="bg-gradient-to-tr from-rose-950 to-black text-white min-h-screen">
+      <body className="bg-gradient-to-tr from-rose-950 to-black text-white min-h-screen p-6">
         {children}
       </body>
     </html>

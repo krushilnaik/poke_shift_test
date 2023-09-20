@@ -8,5 +8,5 @@
 
 button[role="navigation"] {
   @apply transition-colors duration-300 w-16;
-  @apply grid place-content-center text-7xl text-white/30 hover:text-white/70;
+  @apply place-content-center text-7xl text-white/30 hover:text-white/70;
 }

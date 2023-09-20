@@ -3,9 +3,16 @@
 import { useEffect, useState } from "react";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAnglesDown,
+  faAnglesUp,
+  faChevronLeft,
+  faChevronRight,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { Pokemon } from "@/types";
 import pokeball from "@/json/pokeball.json";
+import TypeEffectiveness from "@/components/TypeEffectiveness";
 
 const typeColors = {
   Normal: "#A8A77A",
@@ -54,19 +61,22 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetch("/merged.json")
+    fetch("/merged_v2.json")
       .then((res) => res.json())
       .then(setData)
       .then(() => setActive(491));
   }, []);
 
   return (
-    <main className="relative grid place-content-center w-full h-screen overflow-clip gap-6">
-      <div className="flex justify-between w-full gap-12 z-10 items-center max-w-screen-xl">
+    <main className="relative grid place-content-center w-full gap-6">
+      <span className="absolute text-[13rem] uppercase w-full h-screen grid place-content-center text-center pointer-events-none opacity-5 font-extrabold">
+        {data.length && data[active - 1].species.replace(/(?<=Pokémon)(.*)/g, "")}
+      </span>
+      <div className="flex justify-center md:justify-between h-screen gap-12 w-full z-10 items-center max-w-screen-xl">
         <button
           role="navigation"
           onClick={() => setActive(active - 1)}
-          className="hidden md:block"
+          className="hidden md:grid"
           disabled={active === 1}
         >
           <FontAwesomeIcon icon={faChevronLeft} />
@@ -78,7 +88,7 @@ export default function Home() {
             stroke="currentColor"
             strokeWidth=".5"
             viewBox="0 0 250 250"
-            className="relative rounded-lg w-[570px] max-w-[90vw] aspect-square z-10"
+            className="relative rounded-lg w-[570px] max-w-[85vw] aspect-square z-10"
           >
             <AnimatePresence mode="popLayout">
               {data.length
@@ -140,13 +150,14 @@ export default function Home() {
         <button
           role="navigation"
           onClick={() => setActive(active + 1)}
-          className="hidden md:block"
+          className="hidden md:grid"
           disabled={active === data.length - 1}
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
       </div>
-      <div className="absolute flex w-full justify-between bottom-6 p-10 md:hidden">
+
+      <div className="absolute flex justify-between w-full top-[calc(90vh-3rem)] md:hidden z-20">
         <button
           role="navigation"
           onClick={() => setActive(active - 1)}
@@ -162,6 +173,42 @@ export default function Home() {
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
       </div>
+
+      <section className="flex flex-col gap-4">
+        <div className="flex gap-4">
+          <FontAwesomeIcon icon={faAnglesUp} className="text-3xl text-rose-400" />
+          <ul className="flex gap-2 flex-wrap">
+            {data.length &&
+              data[active - 1].weaknesses.map((data) => (
+                <li>
+                  <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
+                </li>
+              ))}
+          </ul>
+        </div>
+        <div className="flex gap-4">
+          <FontAwesomeIcon icon={faAnglesDown} className="text-3xl text-indigo-400" />
+          <ul className="flex gap-2 flex-wrap">
+            {data.length &&
+              data[active - 1].resistances.map((data) => (
+                <li>
+                  <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
+                </li>
+              ))}
+          </ul>
+        </div>
+        <div className="flex gap-4">
+          <FontAwesomeIcon icon={faXmark} className="text-3xl" />
+          <ul className="flex gap-2 flex-wrap">
+            {data.length &&
+              data[active - 1].immunities.map((data) => (
+                <li>
+                  <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
+                </li>
+              ))}
+          </ul>
+        </div>
+      </section>
     </main>
   );
 }

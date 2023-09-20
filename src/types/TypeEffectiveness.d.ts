@@ -1,4 +1,6 @@
+import { Type } from ".";
+
 export interface TypeEffectiveness {
-  type: string;
+  type: Type;
   multiplier: string;
 }

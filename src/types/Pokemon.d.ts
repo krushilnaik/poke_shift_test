@@ -1,26 +1,10 @@
+import { Type, TypeEffectiveness } from ".";
+
 export interface Pokemon {
   number: number;
   name: string;
-  types: (
-    | "Normal"
-    | "Fire"
-    | "Water"
-    | "Electric"
-    | "Grass"
-    | "Ice"
-    | "Fighting"
-    | "Poison"
-    | "Ground"
-    | "Flying"
-    | "Psychic"
-    | "Bug"
-    | "Rock"
-    | "Ghost"
-    | "Dragon"
-    | "Dark"
-    | "Steel"
-    | "Fairy"
-  )[];
+  types: Type[];
+  species: string;
   weaknesses: TypeEffectiveness[];
   resistances: TypeEffectiveness[];
   immunities: TypeEffectiveness[];

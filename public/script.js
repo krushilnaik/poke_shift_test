@@ -1,4 +1,3 @@
-const path = require("path");
 const fs = require("fs");
 
 /**
@@ -35,8 +34,6 @@ const fs = require("fs");
  */
 const pokedex = JSON.parse(fs.readFileSync("./pokedex.json").toString());
 
-// console.log(pokedex);
-
 /**
  * @type {PokemonSVG[]}
  */
@@ -53,4 +50,4 @@ const merged = pokedex.map((p) => {
   };
 });
 
-fs.writeFileSync("merged.json", JSON.stringify(merged));
+fs.writeFileSync("merged_v2.json", JSON.stringify(merged));
