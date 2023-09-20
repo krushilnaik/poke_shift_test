@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -37,6 +37,7 @@ const typeColors = {
 
 export default function Home() {
   const [data, setData] = useState<Pokemon[]>([]);
+  const [search, setSearch] = useState("");
   const [active, setActive] = useState(0);
 
   const variants: Variants = {
@@ -60,6 +61,29 @@ export default function Home() {
     },
   };
 
+  const handleSearch: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+
+    if (search === "") {
+      return;
+    }
+
+    const filter = /[:\s]+/g;
+
+    const index = data.findIndex(
+      (p) =>
+        p.name.toLowerCase().replaceAll(filter, "") ===
+        search.toLowerCase().replaceAll(filter, "")
+    );
+
+    if (index === -1) {
+      return;
+    }
+
+    setActive(index + 1);
+    setSearch("");
+  };
+
   useEffect(() => {
     fetch("/merged_v2.json")
       .then((res) => res.json())
@@ -68,13 +92,30 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative grid place-content-center w-full gap-6">
+    <main className="relative grid place-content-center w-full gap-6 p-6">
+      <form
+        action=""
+        className="w-full flex justify-center absolute p-6 z-50"
+        onSubmit={handleSearch}
+      >
+        <input
+          type="text"
+          name="pokemon"
+          id="pokemon"
+          onChange={(e) => setSearch(e.currentTarget.value)}
+          value={search}
+          className="bg-white/10 border-[1px] border-white/30 rounded-full p-1 placeholder:text-white/30 text-center w-[25rem] max-w-[80vw]"
+          placeholder="Search"
+        />
+        <input type="submit" value="" className="hidden" />
+      </form>
       <span className="absolute text-[13rem] uppercase w-full h-screen lg:grid place-content-center text-center pointer-events-none opacity-5 font-extrabold hidden">
         {data.length && data[active - 1].species.replace(/(?<=Pokémon)(.*)/g, "")}
       </span>
       <div className="flex justify-center md:justify-between h-screen gap-12 w-full z-10 items-center max-w-screen-xl">
         <button
           role="navigation"
+          data-left
           onClick={() => setActive(active - 1)}
           className="hidden md:grid"
           disabled={active === 1}
@@ -150,6 +191,7 @@ export default function Home() {
         <button
           role="navigation"
           onClick={() => setActive(active + 1)}
+          data-right
           className="hidden md:grid"
           disabled={active === data.length - 1}
         >
@@ -160,6 +202,7 @@ export default function Home() {
       <div className="absolute flex justify-between w-full top-[calc(90vh-3rem)] md:hidden z-20">
         <button
           role="navigation"
+          data-left
           onClick={() => setActive(active - 1)}
           disabled={active === data.length - 1}
         >
@@ -167,6 +210,7 @@ export default function Home() {
         </button>
         <button
           role="navigation"
+          data-right
           onClick={() => setActive(active + 1)}
           disabled={active === data.length - 1}
         >
