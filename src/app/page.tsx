@@ -69,7 +69,7 @@ export default function Home() {
 
   return (
     <main className="relative grid place-content-center w-full gap-6">
-      <span className="absolute text-[13rem] uppercase w-full h-screen grid place-content-center text-center pointer-events-none opacity-5 font-extrabold">
+      <span className="absolute text-[13rem] uppercase w-full h-screen lg:grid place-content-center text-center pointer-events-none opacity-5 font-extrabold hidden">
         {data.length && data[active - 1].species.replace(/(?<=Pokémon)(.*)/g, "")}
       </span>
       <div className="flex justify-center md:justify-between h-screen gap-12 w-full z-10 items-center max-w-screen-xl">
