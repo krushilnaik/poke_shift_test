@@ -223,8 +223,8 @@ export default function Home() {
           <FontAwesomeIcon icon={faAnglesUp} className="text-3xl text-rose-400" />
           <ul className="flex gap-2 flex-wrap">
             {data.length &&
-              data[active - 1].weaknesses.map((data) => (
-                <li>
+              data[active - 1].weaknesses.map((data, i) => (
+                <li key={`weak-${i}`}>
                   <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
                 </li>
               ))}
@@ -234,8 +234,8 @@ export default function Home() {
           <FontAwesomeIcon icon={faAnglesDown} className="text-3xl text-indigo-400" />
           <ul className="flex gap-2 flex-wrap">
             {data.length &&
-              data[active - 1].resistances.map((data) => (
-                <li>
+              data[active - 1].resistances.map((data, i) => (
+                <li key={`resist-${i}`}>
                   <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
                 </li>
               ))}
@@ -245,8 +245,8 @@ export default function Home() {
           <FontAwesomeIcon icon={faXmark} className="text-3xl" />
           <ul className="flex gap-2 flex-wrap">
             {data.length &&
-              data[active - 1].immunities.map((data) => (
-                <li>
+              data[active - 1].immunities.map((data, i) => (
+                <li key={`imm-${i}`}>
                   <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
                 </li>
               ))}
