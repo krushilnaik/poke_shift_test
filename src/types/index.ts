@@ -1,3 +1,4 @@
-import { PokemonSVG } from "./PokemonSVG";
+import { TypeEffectiveness } from "./TypeEffectiveness";
+import { Pokemon } from "./Pokemon";
 
-export type { PokemonSVG };
+export type { TypeEffectiveness, Pokemon };
