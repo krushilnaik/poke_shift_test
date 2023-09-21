@@ -11,42 +11,44 @@ button[role="navigation"] {
   @apply place-content-center text-7xl text-white/30 hover:text-white/70;
 }
 
-button [data-left],
-button [data-right] {
-  animation-delay: 1s;
-  animation-duration: 500ms;
-  animation-direction: forwards;
-  opacity: 0;
-}
+@screen lg {
+  button [data-left],
+  button [data-right] {
+    animation-delay: 1s;
+    animation-duration: 500ms;
+    animation-direction: forwards;
+    opacity: 0;
+  }
 
-button[data-left] {
-  animation-name: fromLeft;
-  transform: translateX(-50px);
-}
-
-button[data-right] {
-  animation-name: fromRight;
-  transform: translateX(50px);
-}
-
-@keyframes fromLeft {
-  from {
+  button[data-left] {
+    animation-name: fromLeft;
     transform: translateX(-50px);
-    opacity: 0;
   }
-  to {
-    transform: translateX(0px);
-    opacity: 1;
-  }
-}
 
-@keyframes fromRight {
-  from {
+  button[data-right] {
+    animation-name: fromRight;
     transform: translateX(50px);
-    opacity: 0;
   }
-  to {
-    transform: translateX(0px);
-    opacity: 1;
+
+  @keyframes fromLeft {
+    from {
+      transform: translateX(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0px);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fromRight {
+    from {
+      transform: translateX(50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0px);
+      opacity: 1;
+    }
   }
 }

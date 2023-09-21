@@ -109,9 +109,30 @@ export default function Home() {
         />
         <input type="submit" value="" className="hidden" />
       </form>
+
       <span className="absolute text-[13rem] uppercase w-full h-screen lg:grid place-content-center max-w-screen-2xl -translate-x-1/2 left-1/2 text-center pointer-events-none opacity-5 font-extrabold hidden">
         {data.length && data[active - 1].species.replace(/(?<=Pokémon)(.*)/g, "")}
       </span>
+
+      <div className="absolute w-full flex justify-between z-30 px-7 top-[calc(100vh-8rem)]">
+        <button
+          role="navigation"
+          data-left
+          onClick={() => setActive(active - 1)}
+          disabled={active === data.length - 1}
+        >
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
+        <button
+          role="navigation"
+          data-right
+          onClick={() => setActive(active + 1)}
+          disabled={active === data.length - 1}
+        >
+          <FontAwesomeIcon icon={faChevronRight} />
+        </button>
+      </div>
+
       <div className="flex justify-center md:justify-between h-screen gap-12 w-full z-10 items-center max-w-screen-xl">
         <button
           role="navigation"
@@ -161,30 +182,34 @@ export default function Home() {
           </svg>
 
           <AnimatePresence mode="wait">
-            {data.length && (
-              <motion.div
-                className="flex flex-col gap-4 items-center"
-                layout
-                initial={{ x: 100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -100, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                key={`${data[active - 1].name}`}
-              >
-                <h1 className="text-5xl">{data[active - 1].name}</h1>
-                <ul className="flex flex-row gap-3">
-                  {data[active - 1].types.map((t, i) => (
-                    <li
-                      key={`${data[active - 1].name}-type-${i}`}
-                      className="px-2 py-1 rounded-md"
-                      style={{ backgroundColor: typeColors[t] }}
-                    >
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            )}
+            <motion.div
+              className="flex flex-col gap-4 items-center h-24"
+              layout
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -100, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              key={`pokemon-${active - 1}`}
+            >
+              {data.length ? (
+                <>
+                  <h1 className="text-5xl">{data[active - 1].name}</h1>
+                  <ul className="flex flex-row gap-3">
+                    {data[active - 1].types.map((t, i) => (
+                      <li
+                        key={`${data[active - 1].name}-type-${i}`}
+                        className="px-2 py-1 rounded-md"
+                        style={{ backgroundColor: typeColors[t] }}
+                      >
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <span aria-hidden></span>
+              )}
+            </motion.div>
           </AnimatePresence>
         </div>
 
@@ -193,25 +218,6 @@ export default function Home() {
           onClick={() => setActive(active + 1)}
           data-right
           className="hidden md:grid"
-          disabled={active === data.length - 1}
-        >
-          <FontAwesomeIcon icon={faChevronRight} />
-        </button>
-      </div>
-
-      <div className="absolute flex justify-between w-full top-[calc(90vh-3rem)] md:hidden z-20">
-        <button
-          role="navigation"
-          data-left
-          onClick={() => setActive(active - 1)}
-          disabled={active === data.length - 1}
-        >
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </button>
-        <button
-          role="navigation"
-          data-right
-          onClick={() => setActive(active + 1)}
           disabled={active === data.length - 1}
         >
           <FontAwesomeIcon icon={faChevronRight} />
