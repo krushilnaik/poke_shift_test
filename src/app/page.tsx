@@ -114,7 +114,7 @@ export default function Home() {
         {data.length && data[active - 1].species.replace(/(?<=Pokémon)(.*)/g, "")}
       </span>
 
-      <div className="absolute w-full flex justify-between z-30 px-7 top-[calc(100vh-8rem)]">
+      <div className="absolute w-full flex justify-between z-30 px-7 top-[calc(100vh-8rem)] md:hidden">
         <button
           role="navigation"
           data-left
