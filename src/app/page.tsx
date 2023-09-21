@@ -88,7 +88,7 @@ export default function Home() {
     fetch("/merged_v2.json")
       .then((res) => res.json())
       .then(setData)
-      .then(() => setActive(491));
+      .then(() => setActive(129));
   }, []);
 
   return (
