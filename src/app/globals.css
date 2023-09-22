@@ -2,13 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  font-family: Mooli, sans-serif;
-}
+@layer base {
+  * {
+    font-family: Mooli, sans-serif;
+  }
 
-button[role="navigation"] {
-  @apply transition-colors duration-300 w-16;
-  @apply place-content-center text-7xl text-white/30 hover:text-white/70;
+  button[role="navigation"] {
+    @apply transition-colors duration-300 w-16;
+    @apply place-content-center text-7xl text-white/30 hover:text-white/70;
+  }
 }
 
 @screen lg {

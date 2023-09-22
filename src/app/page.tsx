@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEventHandler, useEffect, useState } from "react";
-import { motion, Variants, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAnglesDown,
@@ -13,6 +13,7 @@ import {
 import { Pokemon } from "@/types";
 import pokeball from "@/json/pokeball.json";
 import TypeEffectiveness from "@/components/TypeEffectiveness";
+import { PathGroup } from "@/components";
 
 const typeColors = {
   Normal: "#A8A77A",
@@ -38,28 +39,8 @@ const typeColors = {
 export default function Home() {
   const [data, setData] = useState<Pokemon[]>([]);
   const [search, setSearch] = useState("");
-  const [active, setActive] = useState(0);
-
-  const variants: Variants = {
-    initial: {
-      opacity: 0,
-      scale: 0,
-    },
-    animate: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.3,
-      },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0,
-      transition: {
-        duration: 0.3,
-      },
-    },
-  };
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [activePokemon, setActivePokemon] = useState<Pokemon>();
 
   const handleSearch: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -80,22 +61,26 @@ export default function Home() {
       return;
     }
 
-    setActive(index + 1);
+    setActiveIndex(index + 1);
     setSearch("");
   };
+
+  useEffect(() => {
+    setActivePokemon(data[activeIndex - 1]);
+  }, [activeIndex]);
 
   useEffect(() => {
     fetch("/merged_v2.json")
       .then((res) => res.json())
       .then(setData)
-      .then(() => setActive(129));
+      .then(() => setActiveIndex(129));
   }, []);
 
   return (
-    <main className="relative grid place-content-center w-full gap-6 p-6">
+    <main className="relative grid place-content-center w-full gap-6">
       <form
         action=""
-        className="w-full flex justify-center absolute p-6 z-50"
+        className="w-full flex justify-center p-6 z-50"
         onSubmit={handleSearch}
       >
         <input
@@ -104,42 +89,81 @@ export default function Home() {
           id="pokemon"
           onChange={(e) => setSearch(e.currentTarget.value)}
           value={search}
-          className="bg-white/10 border-[1px] border-white/30 rounded-full p-1 placeholder:text-white/30 text-center w-[25rem] max-w-[80vw]"
-          placeholder="Search"
+          className="bg-white/10 border-[1px] border-white/30 rounded-full p-1 placeholder:text-white/30 text-center w-96 max-w-[80vw]"
+          placeholder="Search Pokemon (enter to submit)"
         />
         <input type="submit" value="" className="hidden" />
       </form>
 
       <span className="absolute text-[13rem] uppercase w-full h-screen lg:grid place-content-center max-w-screen-2xl -translate-x-1/2 left-1/2 text-center pointer-events-none opacity-5 font-extrabold hidden">
-        {data.length && data[active - 1].species.replace(/(?<=Pokémon)(.*)/g, "")}
+        {activePokemon && activePokemon.species.replace(/(?<=Pokémon)(.*)/g, "")}
       </span>
+
+      <section className="flex flex-col gap-3">
+        <div className="grid grid-cols-[30px_1fr] gap-3">
+          <FontAwesomeIcon icon={faAnglesUp} className="text-3xl text-rose-400 mx-auto" />
+          <ul className="flex gap-2 flex-wrap items-center">
+            {activePokemon &&
+              activePokemon.weaknesses.map((data, i) => (
+                <li key={`weak-${i}`}>
+                  <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
+                </li>
+              ))}
+          </ul>
+        </div>
+        <div className="grid grid-cols-[30px_1fr] gap-3">
+          <FontAwesomeIcon
+            icon={faAnglesDown}
+            className="text-3xl text-indigo-400 mx-auto"
+          />
+          <ul className="flex gap-2 flex-wrap items-center">
+            {activePokemon &&
+              activePokemon.resistances.map((data, i) => (
+                <li key={`resist-${i}`}>
+                  <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
+                </li>
+              ))}
+          </ul>
+        </div>
+        <div className="grid grid-cols-[30px_1fr] gap-3">
+          <FontAwesomeIcon icon={faXmark} className="text-3xl text-slate-300 mx-auto" />
+          <ul className="flex gap-2 flex-wrap items-center">
+            {activePokemon &&
+              activePokemon.immunities.map((data, i) => (
+                <li key={`imm-${i}`}>
+                  <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
+                </li>
+              ))}
+          </ul>
+        </div>
+      </section>
 
       <div className="absolute w-full flex justify-between z-30 px-7 top-[calc(100vh-8rem)] md:hidden">
         <button
           role="navigation"
           data-left
-          onClick={() => setActive(active - 1)}
-          disabled={active === data.length - 1}
+          onClick={() => setActiveIndex(activeIndex - 1)}
+          disabled={activeIndex === data.length - 1}
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
         <button
           role="navigation"
           data-right
-          onClick={() => setActive(active + 1)}
-          disabled={active === data.length - 1}
+          onClick={() => setActiveIndex(activeIndex + 1)}
+          disabled={activeIndex === data.length - 1}
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
       </div>
 
-      <div className="flex justify-center md:justify-between h-screen gap-12 w-full z-10 items-center max-w-screen-xl">
+      <div className="flex justify-center md:justify-between gap-12 w-full z-10 items-center max-w-screen-xl">
         <button
           role="navigation"
           data-left
-          onClick={() => setActive(active - 1)}
+          onClick={() => setActiveIndex(activeIndex - 1)}
           className="hidden md:grid"
-          disabled={active === 1}
+          disabled={activeIndex === 1}
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
@@ -150,34 +174,16 @@ export default function Home() {
             stroke="currentColor"
             strokeWidth=".5"
             viewBox="0 0 250 250"
-            className="relative rounded-lg w-[570px] max-w-[85vw] aspect-square z-10"
+            className="relative rounded-lg w-[500px] max-w-[85vw] aspect-square z-10"
           >
             <AnimatePresence mode="popLayout">
-              {data.length
-                ? data[active - 1].paths.map((tri, i) => (
-                    <motion.path
-                      layout
-                      d={tri.points}
-                      color={tri.color}
-                      variants={variants}
-                      initial="initial"
-                      animate="animate"
-                      transition={{ duration: 0.5 }}
-                      exit="exit"
-                      key={`tri-${i}`}
-                      className="duration-[850ms]"
-                    />
-                  ))
-                : pokeball.paths.map((tri, i) => (
-                    <motion.path
-                      layout
-                      d={tri.points}
-                      color={tri.color}
-                      transition={{ duration: 0.5 }}
-                      key={`tri-${i}`}
-                      className="animate-pulse [animation-duration:0.9s]"
-                    />
-                  ))}
+              <LayoutGroup>
+                {activePokemon ? (
+                  <PathGroup paths={activePokemon.paths} mode="variants" />
+                ) : (
+                  <PathGroup paths={pokeball.paths} mode="pulse" />
+                )}
+              </LayoutGroup>
             </AnimatePresence>
           </svg>
 
@@ -189,15 +195,16 @@ export default function Home() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -100, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              key={`pokemon-${active - 1}`}
+              key={`pokemon-${activeIndex - 1}`}
             >
-              {data.length ? (
+              {activePokemon ? (
                 <>
-                  <h1 className="text-5xl">{data[active - 1].name}</h1>
+                  <h1 className="text-5xl">{activePokemon.name}</h1>
+                  <p className="md:hidden">{activePokemon.species}</p>
                   <ul className="flex flex-row gap-3">
-                    {data[active - 1].types.map((t, i) => (
+                    {activePokemon.types.map((t, i) => (
                       <li
-                        key={`${data[active - 1].name}-type-${i}`}
+                        key={`${activePokemon.name}-type-${i}`}
                         className="px-2 py-1 rounded-md"
                         style={{ backgroundColor: typeColors[t] }}
                       >
@@ -215,50 +222,14 @@ export default function Home() {
 
         <button
           role="navigation"
-          onClick={() => setActive(active + 1)}
+          onClick={() => setActiveIndex(activeIndex + 1)}
           data-right
           className="hidden md:grid"
-          disabled={active === data.length - 1}
+          disabled={activeIndex === data.length - 1}
         >
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
       </div>
-
-      <section className="flex flex-col gap-4">
-        <div className="flex gap-4">
-          <FontAwesomeIcon icon={faAnglesUp} className="text-3xl text-rose-400" />
-          <ul className="flex gap-2 flex-wrap">
-            {data.length &&
-              data[active - 1].weaknesses.map((data, i) => (
-                <li key={`weak-${i}`}>
-                  <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
-                </li>
-              ))}
-          </ul>
-        </div>
-        <div className="flex gap-4">
-          <FontAwesomeIcon icon={faAnglesDown} className="text-3xl text-indigo-400" />
-          <ul className="flex gap-2 flex-wrap">
-            {data.length &&
-              data[active - 1].resistances.map((data, i) => (
-                <li key={`resist-${i}`}>
-                  <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
-                </li>
-              ))}
-          </ul>
-        </div>
-        <div className="flex gap-4">
-          <FontAwesomeIcon icon={faXmark} className="text-3xl" />
-          <ul className="flex gap-2 flex-wrap">
-            {data.length &&
-              data[active - 1].immunities.map((data, i) => (
-                <li key={`imm-${i}`}>
-                  <TypeEffectiveness {...data} backgroundColor={typeColors[data.type]} />
-                </li>
-              ))}
-          </ul>
-        </div>
-      </section>
     </main>
   );
 }

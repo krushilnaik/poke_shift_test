@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import "./globals.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -11,7 +12,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         ></link>
       </head>
-      <body className="bg-gradient-to-tr from-rose-950 to-black text-white min-h-screen">
+      <body
+        className={classNames(
+          // background
+          "bg-gradient-to-tr from-rose-950 to-black text-white min-h-screen",
+          // scrollbar
+          "scrollbar-thin scrollbar-track-black scrollbar-thumb-slate-400 scrollbar-thumb-rounded-full"
+        )}
+      >
         {children}
       </body>
     </html>
