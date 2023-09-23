@@ -73,7 +73,7 @@ export default function Home() {
     fetch("/merged_v2.json")
       .then((res) => res.json())
       .then(setData)
-      .then(() => setActiveIndex(129));
+      .then(() => setActiveIndex(491));
   }, []);
 
   return (
@@ -99,7 +99,7 @@ export default function Home() {
         {activePokemon && activePokemon.species.replace(/(?<=Pokémon)(.*)/g, "")}
       </span>
 
-      <section className="flex flex-col gap-3">
+      {/* <section className="flex flex-col gap-3">
         <div className="grid grid-cols-[30px_1fr] gap-3">
           <FontAwesomeIcon icon={faAnglesUp} className="text-3xl text-rose-400 mx-auto" />
           <ul className="flex gap-2 flex-wrap items-center">
@@ -136,7 +136,7 @@ export default function Home() {
               ))}
           </ul>
         </div>
-      </section>
+      </section> */}
 
       <div className="absolute w-full flex justify-between z-30 px-7 top-[calc(100vh-8rem)] md:hidden">
         <button
