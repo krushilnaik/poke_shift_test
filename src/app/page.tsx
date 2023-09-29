@@ -1,18 +1,19 @@
 "use client";
 
 import { FormEventHandler, useEffect, useState } from "react";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+// @ts-expect-error
+import { motion, AnimatePresence, LayoutGroup } from "@/lib/framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAnglesDown,
-  faAnglesUp,
+  // faAnglesDown,
+  // faAnglesUp,
   faChevronLeft,
   faChevronRight,
-  faXmark,
+  // faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { Pokemon } from "@/types";
 import pokeball from "@/json/pokeball.json";
-import TypeEffectiveness from "@/components/TypeEffectiveness";
+// import TypeEffectiveness from "@/components/TypeEffectiveness";
 import { PathGroup } from "@/components";
 
 const typeColors = {
@@ -142,7 +143,14 @@ export default function Home() {
         <button
           role="navigation"
           data-left
-          onClick={() => setActiveIndex(activeIndex - 1)}
+          onClick={(event) => {
+            setActiveIndex(activeIndex - 1);
+            event.currentTarget.disabled = true;
+
+            setTimeout(() => {
+              event.currentTarget.disabled = false;
+            }, 200);
+          }}
           disabled={activeIndex === data.length - 1}
         >
           <FontAwesomeIcon icon={faChevronLeft} />
@@ -176,7 +184,7 @@ export default function Home() {
             viewBox="0 0 250 250"
             className="relative rounded-lg w-[500px] max-w-[85vw] aspect-square z-10"
           >
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence>
               <LayoutGroup>
                 {activePokemon ? (
                   <PathGroup paths={activePokemon.paths} mode="variants" />

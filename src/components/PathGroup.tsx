@@ -1,5 +1,5 @@
 import { Triangle } from "@/types";
-import { Variants, motion } from "framer-motion";
+import { AnimatePresence, Variants, motion } from "framer-motion";
 
 interface Props {
   paths: Triangle[];
@@ -29,7 +29,7 @@ function PathGroup({ paths, mode }: Props) {
   };
 
   return (
-    <>
+    <AnimatePresence>
       {paths.map((tri, i) => (
         <motion.path
           layout
@@ -47,7 +47,7 @@ function PathGroup({ paths, mode }: Props) {
           }`}
         />
       ))}
-    </>
+    </AnimatePresence>
   );
 }
 
