@@ -143,15 +143,8 @@ export default function Home() {
         <button
           role="navigation"
           data-left
-          onClick={(event) => {
-            setActiveIndex(activeIndex - 1);
-            event.currentTarget.disabled = true;
-
-            setTimeout(() => {
-              event.currentTarget.disabled = false;
-            }, 200);
-          }}
-          disabled={activeIndex === data.length - 1}
+          onClick={() => setActiveIndex(activeIndex - 1)}
+          disabled={activeIndex === 1}
         >
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
