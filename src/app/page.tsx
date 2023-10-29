@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import pokeball from "@/json/pokeball.json";
 import { PathGroup, TypeEffectiveness } from "@/components";
-import pokedex from "@/assets/staging.json";
+import { pokedex } from "@/assets/pokedex";
 
 const typeColors = {
   Normal: "#A8A77A",
@@ -196,15 +196,17 @@ export default function Home() {
                 className="text-3xl text-rose-400 mx-auto"
               />
               <ul className="flex gap-2 flex-wrap items-center">
-                {Object.entries(pokedex[activeIndex].weaknesses).map((data, i) => (
-                  <li key={`weak-${i}`}>
-                    <TypeEffectiveness
-                      type={data[0]}
-                      multiplier={data[1]}
-                      backgroundColor={typeColors[data[0]]}
-                    />
-                  </li>
-                ))}
+                {Object.entries<number>(pokedex[activeIndex].weaknesses).map(
+                  (data, i) => (
+                    <li key={`weak-${i}`}>
+                      <TypeEffectiveness
+                        type={data[0]}
+                        multiplier={data[1]}
+                        backgroundColor={typeColors[data[0]]}
+                      />
+                    </li>
+                  )
+                )}
               </ul>
             </div>
             <div className="grid grid-cols-[30px_1fr] gap-3">
@@ -213,15 +215,17 @@ export default function Home() {
                 className="text-3xl text-indigo-400 mx-auto"
               />
               <ul className="flex gap-2 flex-wrap items-center">
-                {Object.entries(pokedex[activeIndex].resistances).map((data, i) => (
-                  <li key={`resist-${i}`}>
-                    <TypeEffectiveness
-                      type={data[0]}
-                      multiplier={data[1]}
-                      backgroundColor={typeColors[data[0]]}
-                    />
-                  </li>
-                ))}
+                {Object.entries<number>(pokedex[activeIndex].resistances).map(
+                  (data, i) => (
+                    <li key={`resist-${i}`}>
+                      <TypeEffectiveness
+                        type={data[0]}
+                        multiplier={data[1]}
+                        backgroundColor={typeColors[data[0]]}
+                      />
+                    </li>
+                  )
+                )}
               </ul>
             </div>
             <div className="grid grid-cols-[30px_1fr] gap-3">
@@ -230,15 +234,17 @@ export default function Home() {
                 className="text-3xl text-slate-300 mx-auto"
               />
               <ul className="flex gap-2 flex-wrap items-center">
-                {Object.entries(pokedex[activeIndex].immunities).map((data, i) => (
-                  <li key={`imm-${i}`}>
-                    <TypeEffectiveness
-                      type={data[0]}
-                      multiplier={data[1]}
-                      backgroundColor={typeColors[data[0]]}
-                    />
-                  </li>
-                ))}
+                {Object.entries<number>(pokedex[activeIndex].immunities).map(
+                  (data, i) => (
+                    <li key={`imm-${i}`}>
+                      <TypeEffectiveness
+                        type={data[0]}
+                        multiplier={data[1]}
+                        backgroundColor={typeColors[data[0]]}
+                      />
+                    </li>
+                  )
+                )}
               </ul>
             </div>
           </section>

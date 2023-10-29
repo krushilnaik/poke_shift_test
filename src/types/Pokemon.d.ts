@@ -5,14 +5,8 @@ export interface Pokemon {
   name: string;
   types: Type[];
   // species: string;
-  weaknesses: {
-    [Type]: number;
-  };
-  resistances: {
-    [Type]: number;
-  };
-  immunities: {
-    [Type]: number;
-  };
+  weaknesses: object;
+  resistances: object;
+  immunities: object;
   paths: Triangle[];
 }

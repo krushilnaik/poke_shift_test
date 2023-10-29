@@ -1,6 +1,6 @@
 interface Props {
   type: string;
-  multiplier: string;
+  multiplier: number;
   backgroundColor: string;
 }
 
