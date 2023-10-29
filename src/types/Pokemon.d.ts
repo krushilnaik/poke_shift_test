@@ -1,12 +1,18 @@
 import { Triangle, Type, TypeEffectiveness } from ".";
 
 export interface Pokemon {
-  number: number;
+  // number: number;
   name: string;
   types: Type[];
-  species: string;
-  weaknesses: TypeEffectiveness[];
-  resistances: TypeEffectiveness[];
-  immunities: TypeEffectiveness[];
+  // species: string;
+  weaknesses: {
+    [Type]: number;
+  };
+  resistances: {
+    [Type]: number;
+  };
+  immunities: {
+    [Type]: number;
+  };
   paths: Triangle[];
 }

@@ -33,7 +33,7 @@ function PathGroup({ paths, mode }: Props) {
       {paths.map((tri, i) => (
         <motion.path
           layout
-          d={tri.points}
+          d={(mode === "variants" ? "M" : "") + tri.points}
           color={tri.color}
           variants={mode === "variants" ? variants : {}}
           initial="initial"
@@ -42,6 +42,7 @@ function PathGroup({ paths, mode }: Props) {
           exit="exit"
           key={`tri-${i}`}
           layoutId={`tri-${i}`}
+          style={{ transitionDelay: `${i}ms` }}
           className={`duration-[850ms] ${
             mode === "pulse" ? "animate-pulse [animation-duration:0.9s]" : ""
           }`}
