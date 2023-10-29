@@ -245,8 +245,8 @@ export default function Home() {
           <div className="flex gap-4 items-center">
             {pokedex[activeIndex].evolutions ? <h2>Evolutions</h2> : ""}
             <ul className="flex gap-4">
-              {pokedex[activeIndex].evolutions.map((e) => (
-                <li>
+              {pokedex[activeIndex].evolutions.map((e, i) => (
+                <li key={e}>
                   <button
                     onClick={() => handleLink(e)}
                     className="bg-amber-500 px-4 py-2 rounded-lg"
@@ -260,13 +260,13 @@ export default function Home() {
           <div className="flex gap-4">
             <ul className="flex gap-4">
               {pokedex[activeIndex].forms.length ? <h2>Forms</h2> : ""}
-              {pokedex[activeIndex].forms.map((e) => (
-                <li>
+              {pokedex[activeIndex].forms.map((f) => (
+                <li key={f}>
                   <button
-                    onClick={() => handleLink(e)}
+                    onClick={() => handleLink(f)}
                     className="bg-emerald-500 px-4 py-2 rounded-lg"
                   >
-                    {e}
+                    {f}
                   </button>
                 </li>
               ))}
