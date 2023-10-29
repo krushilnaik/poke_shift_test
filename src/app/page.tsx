@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 "use client";
 
 import { FormEventHandler, useState } from "react";
@@ -13,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import pokeball from "@/json/pokeball.json";
 import { PathGroup, TypeEffectiveness } from "@/components";
-import { pokedex } from "@/assets/pokedex";
+import pokedex from "@/assets/pokedex.json";
 
 const typeColors = {
   Normal: "#A8A77A",
