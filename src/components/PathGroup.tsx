@@ -33,7 +33,7 @@ function PathGroup({ paths, mode }: Props) {
       {paths.map((tri, i) => (
         <motion.path
           layout
-          d={(mode === "variants" ? "M" : "") + tri.points}
+          d={tri.points}
           color={tri.color}
           variants={mode === "variants" ? variants : {}}
           initial="initial"
